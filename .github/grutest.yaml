@@ -1,0 +1,16 @@
+version: "0.1"
+global:
+  setup:
+    - npm install
+pipeline:
+  runTest:
+    exec:
+      - npm run test -- {{testFilePath}}
+    post:
+      # 用户在配置的时候，是否也可能会遇到这个坑
+      - npm run ts-check
+      - npm run lint-check
+settings:
+  testPlacementStrategies:
+    - type: co-located
+      testFilePattern: "{{sourceFileName}}.spec.ts"
